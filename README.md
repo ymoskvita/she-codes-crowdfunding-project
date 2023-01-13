@@ -26,21 +26,155 @@ GoodGo is a crowdfunding platform that aims to support the Ukrainian people and 
 
 - /users/register
 - Method: POST
+  Request Body:
+
+```
+{
+    "username": "johndoe",
+    "email": "johndoe@example.com",
+    "password": "password123"
+}
+```
+
+Success Response:
+Code: 201
+Content:
+
+```
+{
+    "id": 1,
+    "username": "johndoe",
+    "email": "johndoe@example.com"
+}
+```
 
 #### Login a user
 
 - /users/login
 - Method: POST
+  Request Body:
+
+```
+{
+    "email": "johndoe@example.com",
+    "password": "password123"
+}
+```
+
+Success Response:
+Code: 200
+Content:
+
+```
+{
+    "token": "..."
+}
+```
+
+#### Get user info
+
+- /user/:id
+- Method: GET
+  Success Response:
+  Code: 200
+  Content:
+
+```
+[
+    {
+       "id": 1,
+        "username": "johndoe",
+        "email": "johndoe@example.com"
+    }
+```
+
+#### Edit user info
+
+- /user/:id
+- Method: PATCH
 
 #### Get all projects
 
 - /projects
 - Method: GET
+  Success Response:
+  Code: 200
+  Content:
+
+```
+[
+    {
+        "id": 1,
+        "user_id": 1,
+        "title":
+```
 
 #### Create a new project
 
 - /projects
 - Method: POST
+  Headers:
+
+```
+{
+    "Authorization": "<access_token>"
+}
+```
+
+Request Body:
+
+```
+{
+    "title": "Help Build a Community Garden",
+    "image": "https://www.tweed.nsw.gov.au/files/assets/public/images/property-and-rates/pets-and-livestock/cats/cat.jpg?dimension=pageimage&w=480",
+    "description": "We want to build a community garden in our neighborhood to provide fresh produce for local families."
+}
+```
+
+Success Response:
+Code: 201
+Content:
+
+```
+{
+    "id": 1,
+    "user_id": 1,
+    "title": "Help Build a Community Garden",
+    "image": "https://www.tweed.nsw.gov.au/files/assets/public/images/property-and-rates/pets-and-livestock/cats/cat.jpg?dimension=pageimage&w=480",
+    "description": "We want to build a community garden in our neighborhood to provide fresh produce for local families.",
+    "date": "2022-12-31"
+}
+```
+
+#### Edit project
+
+- /projects/:id
+- Method: PATCH
+
+#### Delete project
+
+- /projects/:id
+- Method: DELETE
+
+#### Create a new pledge
+
+- /pledges
+- Method: POST
+
+#### Get pledges
+
+- /pledges
+- Method: GET
+
+#### Edit pledge
+
+- /pledges/:id
+- Method: PUTCH
+
+#### Delete pledge
+
+- /pledges/:id
+- Method: DELETE
 
 ### A database schema:
 
