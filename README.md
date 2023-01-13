@@ -44,8 +44,6 @@ GoodGo is a crowdfunding platform that aims to support the Ukrainian people and 
 
 ### A database schema:
 
-![](img/database-scheme.jpg)
-
 ```mermaid
 
 classDiagram
