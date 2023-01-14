@@ -22,15 +22,17 @@ GoodGo is a crowdfunding platform that aims to support the Ukrainian people and 
 
 ### An API specification:
 
+<details><summary>Operations about user</summary>
+
 #### Register a new user
 
-- /users/register
-- Method: POST
-  Request Body:
+<details><summary>POST /users/register</summary>
+Request Body:
 
 ```
 {
     "username": "johndoe",
+    "image": "",
     "email": "johndoe@example.com",
     "password": "password123"
 }
@@ -48,10 +50,11 @@ Content:
 }
 ```
 
+</details>
+
 #### Login a user
 
-- /users/login
-- Method: POST
+<details><summary>POST /users/login</summary>
   Request Body:
 
 ```
@@ -71,10 +74,11 @@ Content:
 }
 ```
 
+</details>
+
 #### Get user info
 
-- /user/:id
-- Method: GET
+<details><summary>GET /user/:id</summary>
   Success Response:
   Code: 200
   Content:
@@ -84,19 +88,25 @@ Content:
     {
        "id": 1,
         "username": "johndoe",
+        "image": "...",
         "email": "johndoe@example.com"
     }
 ```
 
+</details>
+
 #### Edit user info
 
-- /user/:id
-- Method: PATCH
+<details><summary>PATCH /user/:id</summary>
+
+</details>
+</details>
+
+<details><summary>Everything about Projects</summary>
 
 #### Get all projects
 
-- /projects
-- Method: GET
+<details><summary> GET /projects</summary>
   Success Response:
   Code: 200
   Content:
@@ -109,10 +119,11 @@ Content:
         "title":
 ```
 
+</details>
+
 #### Create a new project
 
-- /projects
-- Method: POST
+<details><summary>POST /projects</summary>
   Headers:
 
 ```
@@ -125,9 +136,13 @@ Request Body:
 
 ```
 {
-    "title": "Help Build a Community Garden",
-    "image": "https://www.tweed.nsw.gov.au/files/assets/public/images/property-and-rates/pets-and-livestock/cats/cat.jpg?dimension=pageimage&w=480",
-    "description": "We want to build a community garden in our neighborhood to provide fresh produce for local families."
+	"title": "Project one",
+	"description": "The first project.",
+	"goal": 150,
+	"image": "https://via.placeholder.com/300.jpg",
+	"is_open": true,
+	"date_created": "2020-03-20T14:28:23.382748Z",
+	"owner": "Real Creator"
 }
 ```
 
@@ -137,44 +152,122 @@ Content:
 
 ```
 {
-    "id": 1,
-    "user_id": 1,
-    "title": "Help Build a Community Garden",
-    "image": "https://www.tweed.nsw.gov.au/files/assets/public/images/property-and-rates/pets-and-livestock/cats/cat.jpg?dimension=pageimage&w=480",
-    "description": "We want to build a community garden in our neighborhood to provide fresh produce for local families.",
-    "date": "2022-12-31"
+	"id": 1,
+	"title": "Project one",
+	"description": "The first project.",
+	"goal": 150,
+	"image": "https://via.placeholder.com/300.jpg",
+	"is_open": true,
+	"date_created": "2023-01-14T00:12:48.268589Z",
+	"owner": "Real Creator"
 }
 ```
 
+</details>
+
+#### Get project detail
+
+<details><summary>GET /projects/:id</summary>
+  Success Response:
+  Code: 200
+  Content:
+
+```
+{
+	"id": 1,
+	"title": "Project one",
+	"description": "The first project.",
+	"goal": 150,
+	"image": "https://via.placeholder.com/300.jpg",
+	"is_open": true,
+	"date_created": "2023-01-14T00:12:48.268589Z",
+	"owner": "Real Creator"
+}
+```
+
+</details>
+
 #### Edit project
 
-- /projects/:id
-- Method: PATCH
+<details><summary>PATCH /projects/:id </summary>
+
+</details>
 
 #### Delete project
 
-- /projects/:id
-- Method: DELETE
+<details><summary>DELETE /projects/:id</summary>
+
+</details>
+</details>
+
+<details><summary>Everything about Pledges</summary>
 
 #### Create a new pledge
 
-- /pledges
-- Method: POST
+<details><summary> POST /pledges</summary>
+  Request Body:
+
+```
+{
+	"amount": 10,
+	"comment": "hope it helps",
+	"anonymous": false,
+	"supporter": "Real Creator",
+	"project_id": 1
+}
+```
+
+Success Response:
+Code: 201
+Content:
+
+```
+{
+	"id": 1,
+	"amount": 10,
+	"comment": "hope it helps",
+	"anonymous": false,
+	"supporter": "Real Creatore",
+	"project_id": 1
+}
+```
+
+</details>
 
 #### Get pledges
 
-- /pledges
-- Method: GET
+<details><summary>GET /pledges</summary>
+  Success Response:
+  Code: 200
+  Content:
+
+```
+[
+	{
+		"id": 1,
+	    "amount": 10,
+	    "comment": "hope it helps",
+	    "anonymous": false,
+	    "supporter": "Real Creatore",
+	    "project_id": 1
+	}
+]
+```
+
+</details>
 
 #### Edit pledge
 
-- /pledges/:id
-- Method: PUTCH
+<details><summary> PATCH /pledges/:id</summary>
+
+</details>
 
 #### Delete pledge
 
-- /pledges/:id
-- Method: DELETE
+<details><summary>DELETE /pledges/:id</summary>
+
+</details>
+</details>
 
 ### A database schema:
 
@@ -191,19 +284,24 @@ user_id (INTEGER, foreign key to USER.id)
 title (STRING)
 image (STRING)
 description (STRING)
-date (DATETIME)
+goal (INTEGER)
+is_open (BOOLEAN)
+date_created (DATETIME)
+owner (STRING)
 }
 class User{
 id (INTEGER, primary key)
 username (STRING)
+image (STRING)
 email (STRING)
 password (STRING)
 }
 class Pledge{
 id (INTEGER, primary key)
-user_id (INTEGER, foreign key to USER.id)
+supporter (INTEGER, foreign key to USER.id)
 project_id (INTEGER, foreign key to PROJECT.id)
 amount (INTEGER)
+comment (STRING)
 anonymous (BOOLEAN)
 }
 ```
